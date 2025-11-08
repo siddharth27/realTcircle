@@ -21,7 +21,6 @@ jobs:
       - name: Set up Flutter
         uses: subosito/flutter-action@v2
         with:
-          flutter-version: '3.24.0'
           channel: 'stable'
           cache: true
 
@@ -37,7 +36,7 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          projectId: your-firebase-project-id
+          projectId: 541564455838
           expires: 7d
 
       - name: Deploy to Firebase Hosting (Production)
@@ -46,5 +45,5 @@ jobs:
         with:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}'
-          projectId: your-firebase-project-id
+          projectId: 541564455838
           channelId: live
