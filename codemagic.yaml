@@ -73,23 +73,30 @@ workflows:
         track: internal
         submit_as_draft: true
 
-  # Web Workflow (Alternative to Vercel)
+  # Web Workflow - Firebase Hosting
   web-workflow:
-    name: Web Build
+    name: Web Build & Deploy to Firebase
     max_build_duration: 30
     instance_type: linux
     environment:
+      groups:
+        - firebase_credentials
+      vars:
+        FIREBASE_PROJECT_ID: "your-firebase-project-id"
       flutter: stable
+      node: latest
     scripts:
       - name: Get Flutter packages
         script: |
           flutter pub get
       - name: Build web
         script: |
-          flutter build web --release --web-renderer canvaskit
+          flutter build web --release
+      - name: Install Firebase CLI
+        script: |
+          npm install -g firebase-tools
+      - name: Deploy to Firebase Hosting
+        script: |
+          firebase deploy --only hosting --token "$FIREBASE_TOKEN" --project "$FIREBASE_PROJECT_ID"
     artifacts:
       - build/web/**
-    publishing:
-      # Configure for Firebase Hosting or other providers
-      scripts:
-        - echo "Deploy to your hosting provider"
