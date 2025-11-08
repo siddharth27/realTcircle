@@ -1,0 +1,95 @@
+workflows:
+  # iOS Workflow
+  ios-workflow:
+    name: iOS Build & Deploy
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+    environment:
+      groups:
+        - app_store_credentials
+      vars:
+        BUNDLE_ID: "com.realtcircle.app"
+        XCODE_WORKSPACE: "ios/Runner.xcworkspace"
+        XCODE_SCHEME: "Runner"
+      flutter: stable
+      xcode: latest
+      cocoapods: default
+    scripts:
+      - name: Set up provisioning profiles
+        script: |
+          # This will be set up when you configure App Store Connect
+          echo "Setting up provisioning profiles..."
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+      - name: Build iOS app
+        script: |
+          flutter build ipa \
+            --release \
+            --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+    publishing:
+      app_store_connect:
+        # Configure these in Codemagic UI
+        api_key: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        key_id: $APP_STORE_CONNECT_KEY_ID
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
+        submit_to_testflight: true
+        submit_to_app_store: false
+
+  # Android Workflow
+  android-workflow:
+    name: Android Build & Deploy
+    max_build_duration: 60
+    instance_type: linux_x2
+    environment:
+      groups:
+        - google_play_credentials
+      vars:
+        PACKAGE_NAME: "com.realtcircle.app"
+      flutter: stable
+      java: 17
+    scripts:
+      - name: Set up local.properties
+        script: |
+          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+      - name: Build Android APK
+        script: |
+          flutter build apk --release
+      - name: Build Android App Bundle
+        script: |
+          flutter build appbundle --release
+    artifacts:
+      - build/app/outputs/flutter-apk/*.apk
+      - build/app/outputs/bundle/**/*.aab
+    publishing:
+      google_play:
+        # Configure these in Codemagic UI
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: internal
+        submit_as_draft: true
+
+  # Web Workflow (Alternative to Vercel)
+  web-workflow:
+    name: Web Build
+    max_build_duration: 30
+    instance_type: linux
+    environment:
+      flutter: stable
+    scripts:
+      - name: Get Flutter packages
+        script: |
+          flutter pub get
+      - name: Build web
+        script: |
+          flutter build web --release --web-renderer canvaskit
+    artifacts:
+      - build/web/**
+    publishing:
+      # Configure for Firebase Hosting or other providers
+      scripts:
+        - echo "Deploy to your hosting provider"
