@@ -11,6 +11,9 @@ fi
 # Add Flutter to PATH
 export PATH="$PATH:$HOME/flutter/bin"
 
+# Accept licenses
+flutter doctor --android-licenses || true
+
 # Enable web support
 flutter config --enable-web
 
@@ -18,8 +21,8 @@ flutter config --enable-web
 echo "📦 Getting Flutter dependencies..."
 flutter pub get
 
-# Build web app
+# Build web app (--web-renderer removed - CanvasKit is default now)
 echo "🏗️ Building Flutter web app..."
-flutter build web --release --web-renderer canvaskit
+flutter build web --release
 
 echo "✅ Build complete!"
