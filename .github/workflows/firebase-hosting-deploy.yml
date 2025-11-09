@@ -28,7 +28,13 @@ jobs:
         run: flutter pub get
 
       - name: Build Flutter web
-        run: flutter build web --release
+        run: |
+          flutter build web --release \
+            --dart-define=SUPABASE_URL=${{ secrets.SUPABASE_URL }} \
+            --dart-define=SUPABASE_ANON_KEY=${{ secrets.SUPABASE_ANON_KEY }}
+        env:
+          SUPABASE_URL: https://spwsglhjwpbpoawqhsqj.supabase.co
+          SUPABASE_ANON_KEY: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNwd3NnbGhqd3BicG9hd3Foc3FqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1MTA0MjUsImV4cCI6MjA3ODA4NjQyNX0.oMxnt_s0n7KqpGaZQhRcFuWkvli3TZySyrd0o-okZK4
 
       - name: Deploy to Firebase Hosting (Preview)
         if: github.event_name == 'pull_request'

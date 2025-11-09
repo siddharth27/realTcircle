@@ -82,7 +82,9 @@ workflows:
       groups:
         - firebase_credentials
       vars:
-        FIREBASE_PROJECT_ID: "your-firebase-project-id"
+        FIREBASE_PROJECT_ID: "541564455838"
+        SUPABASE_URL: "https://spwsglhjwpbpoawqhsqj.supabase.co"
+        SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNwd3NnbGhqd3BicG9hd3Foc3FqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjI1MTA0MjUsImV4cCI6MjA3ODA4NjQyNX0.oMxnt_s0n7KqpGaZQhRcFuWkvli3TZySyrd0o-okZK4"
       flutter: stable
       node: latest
     scripts:
@@ -91,7 +93,9 @@ workflows:
           flutter pub get
       - name: Build web
         script: |
-          flutter build web --release
+          flutter build web --release \
+            --dart-define=SUPABASE_URL="${SUPABASE_URL}" \
+            --dart-define=SUPABASE_ANON_KEY="${SUPABASE_ANON_KEY}"
       - name: Install Firebase CLI
         script: |
           npm install -g firebase-tools
