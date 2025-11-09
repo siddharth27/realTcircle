@@ -82,9 +82,12 @@
         return;
       }
 
+      // Get service worker version if it exists, otherwise use null
+      var swVersion = typeof serviceWorkerVersion !== 'undefined' ? serviceWorkerVersion : null;
+
       _flutter.loader.loadEntrypoint({
         serviceWorker: {
-          serviceWorkerVersion: serviceWorkerVersion,
+          serviceWorkerVersion: swVersion,
         },
         onEntrypointLoaded: function(engineInitializer) {
           engineInitializer.initializeEngine().then(function(appRunner) {
