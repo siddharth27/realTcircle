@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:m3.material.io)",
+      "WebFetch(domain:gallery.flutter.dev)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 class AppTheme {
-  // Primary Colors
-  static const Color primaryColor = Color(0xFF2563EB); // Blue
-  static const Color secondaryColor = Color(0xFF10B981); // Green
-  static const Color accentColor = Color(0xFFF59E0B); // Amber
+  // Primary Colors - Material 3 inspired
+  static const Color primaryColor = Color(0xFF6750A4); // M3 Primary Purple
+  static const Color secondaryColor = Color(0xFF625B71); // M3 Secondary
+  static const Color tertiaryColor = Color(0xFF7D5260); // M3 Tertiary
 
   // Light Theme
   static ThemeData lightTheme = ThemeData(
@@ -12,16 +12,24 @@ class AppTheme {
     colorScheme: ColorScheme.fromSeed(
       seedColor: primaryColor,
       brightness: Brightness.light,
+      secondary: secondaryColor,
+      tertiary: tertiaryColor,
     ),
+    // M3 Elevation with surface tints
+    applyElevationOverlayColor: true,
     appBarTheme: const AppBarTheme(
       centerTitle: true,
       elevation: 0,
     ),
+    // M3 Card with elevated surface
     cardTheme: CardThemeData(
-      elevation: 2,
+      elevation: 1,
+      shadowColor: Colors.black.withOpacity(0.15),
+      surfaceTintColor: primaryColor,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
       ),
+      margin: const EdgeInsets.all(8),
     ),
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
@@ -73,16 +81,24 @@ class AppTheme {
     colorScheme: ColorScheme.fromSeed(
       seedColor: primaryColor,
       brightness: Brightness.dark,
+      secondary: secondaryColor,
+      tertiary: tertiaryColor,
     ),
+    // M3 Elevation with surface tints
+    applyElevationOverlayColor: true,
     appBarTheme: const AppBarTheme(
       centerTitle: true,
       elevation: 0,
     ),
+    // M3 Card with elevated surface
     cardTheme: CardThemeData(
-      elevation: 2,
+      elevation: 1,
+      shadowColor: Colors.black.withOpacity(0.15),
+      surfaceTintColor: primaryColor,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
       ),
+      margin: const EdgeInsets.all(8),
     ),
     filledButtonTheme: FilledButtonThemeData(
       style: FilledButton.styleFrom(
