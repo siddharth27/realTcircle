@@ -23,13 +23,17 @@ workflows:
           flutter build ios --debug --no-codesign
       - name: Create Debug IPA
         script: |
+          set -e
           cd build/ios/iphoneos
-          mkdir Payload
+          mkdir -p Payload
           cp -r Runner.app Payload/
-          zip -r ../../../Runner-debug.ipa Payload/
+          zip -qr Runner-debug.ipa Payload
+          mv Runner-debug.ipa $CM_BUILD_DIR/
+          echo "IPA created at: $CM_BUILD_DIR/Runner-debug.ipa"
+          ls -lh $CM_BUILD_DIR/Runner-debug.ipa
     artifacts:
       - Runner-debug.ipa
-      - build/ios/iphoneos/Runner.app
+      - build/ios/iphoneos/Runner.app/**/*
     publishing:
       app_store_connect:
         # Configure these in Codemagic UI
