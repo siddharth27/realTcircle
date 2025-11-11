@@ -15,20 +15,21 @@ workflows:
       xcode: latest
       cocoapods: default
     scripts:
-      - name: Set up provisioning profiles
-        script: |
-          # This will be set up when you configure App Store Connect
-          echo "Setting up provisioning profiles..."
       - name: Get Flutter packages
         script: |
           flutter pub get
-      - name: Build iOS app
+      - name: Build iOS app (Debug - No Code Signing Required)
         script: |
-          flutter build ipa \
-            --release \
-            --export-options-plist=/Users/builder/export_options.plist
+          flutter build ios --debug --no-codesign
+      - name: Create Debug IPA
+        script: |
+          cd build/ios/iphoneos
+          mkdir Payload
+          cp -r Runner.app Payload/
+          zip -r ../../../Runner-debug.ipa Payload/
     artifacts:
-      - build/ios/ipa/*.ipa
+      - Runner-debug.ipa
+      - build/ios/iphoneos/Runner.app
     publishing:
       app_store_connect:
         # Configure these in Codemagic UI
